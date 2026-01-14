@@ -66,35 +66,43 @@ async function fetchPrices(symbols) {
   
 // 3. Login UI
 function renderLogin() {
-    app.innerHTML = `
-      <div class="login-wrapper">
-        <div class="login-card">
-          <h2>Varsity Capital</h2>
-          <p class="login-subtitle">Sign in to your dashboard</p>
-  
-          <input id="email" placeholder="Email" />
-          <input id="password" type="password" placeholder="Password" />
-          <button id="loginBtn">Login</button>
-        </div>
+  app.innerHTML = `
+    <div class="login-wrapper">
+      <div class="login-card">
+        <h2>Varsity Capital</h2>
+        <p class="login-subtitle">Sign in to your dashboard</p>
+
+        <input id="email" placeholder="Email" />
+        <input id="password" type="password" placeholder="Password" />
+        <button id="loginBtn">Login</button>
+
+        <button class="link-btn" id="forgotBtn">Forgot password</button>
       </div>
-    `;
-  
-    document.getElementById("loginBtn").onclick = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-  
-      const { error } = await supa.auth.signInWithPassword({
-        email,
-        password
-      });
-  
-      if (error) {
-        alert(error.message);
-      } else {
-        renderDashboard();
-      }
-    };
-  }
+    </div>
+  `;
+
+  document.getElementById("loginBtn").onclick = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await supa.auth.signInWithPassword({ email, password });
+    if (error) alert(error.message);
+    else init();
+  };
+
+  document.getElementById("forgotBtn").onclick = async () => {
+    const email = document.getElementById("email").value;
+    if (!email) return alert("Enter your email first.");
+
+    const { error } = await supa.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin
+    });
+
+    if (error) alert(error.message);
+    else alert("Password reset email sent.");
+  };
+}
+
   
 function renderLayout(label = "Your Account") {
     app.innerHTML = `

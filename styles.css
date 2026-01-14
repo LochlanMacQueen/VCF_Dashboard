@@ -252,7 +252,7 @@ h1, h2, h3 {
     border-color: #002952;
   }
   
-  .login-card button {
+  .login-card button:not(.link-btn) {
     margin-top: 8px;
     padding: 10px;
     border-radius: 8px;
@@ -264,7 +264,8 @@ h1, h2, h3 {
     cursor: pointer;
   }
   
-  .login-card button:hover {
+  
+  .login-card button:not(.link-btn):hover {
     background: #001f3f;
   }
   .summary-card {
@@ -369,6 +370,20 @@ h1, h2, h3 {
       padding: 20px;
     }
   }
+  .link-btn {
+  background: transparent;
+  border: none;
+  color: #002952;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
     
   
   
