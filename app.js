@@ -215,7 +215,15 @@ async function renderDashboard() {
   </div>
 `;
 
-    const { data: { user } } = await supa.auth.getUser();
+async function renderDashboard() {
+  const { data: { user } } = await supa.auth.getUser();
+
+  if (!user) {
+    // Session is gone or invalid — go back to login
+    renderLogin();
+    return;
+  }
+
   
     const { data: accounts, error: accErr } = await supa
       .from("accounts")
@@ -394,6 +402,9 @@ for (const h of enrichedHoldings) {
   sectorTotals[h.sector] =
     (sectorTotals[h.sector] || 0) + h.marketValue;
 }
+}
+
+
 const labels = Object.keys(sectorTotals);
 const values = Object.values(sectorTotals);
 
@@ -443,5 +454,3 @@ new Chart(ctx, {
 
 }
 setTimeout(init, 120000); // re-run auth gate + refresh
-
-
